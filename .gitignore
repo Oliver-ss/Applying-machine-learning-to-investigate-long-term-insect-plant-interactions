@@ -1,0 +1,14 @@
+*.jpg
+*.pth
+*.jpeg
+._*
+*.ipynb
+checkpoints/
+__pycache__/
+__pycache__
+model
+Annotations
+Images
+pretrained
+Standardized
+.ipynb_checkpoints

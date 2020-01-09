@@ -1,0 +1,18 @@
+name: leaves
+channels:
+  - pytorch
+  - conda-forge
+  - anaconda
+  - nodefaults
+dependencies:
+  - python=3.7
+  - pytorch
+  - torchvision
+  - cudatoolkit
+  - cudnn
+  - visdom
+  - pillow
+  - tqdm
+  - pandas
+  - matplotlib
+  - yattag
