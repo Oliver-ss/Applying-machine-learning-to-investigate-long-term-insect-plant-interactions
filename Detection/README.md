@@ -19,5 +19,5 @@ python3 utils/get_mAP.py ${PRED} ${GT}
 ```
 for example,
 ```
-python3 utils/get_mAP.py train_log/test/predictions.json dataset/Labels/test_full.json
+python3 utils/get_mAP.py train_log/test/predictions.json ../Dataset/Labels/test_full.json
 ```
