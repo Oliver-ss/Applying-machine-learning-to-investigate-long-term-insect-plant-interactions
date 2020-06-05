@@ -21,3 +21,12 @@ for example,
 ```
 python3 utils/get_mAP.py train_log/test/predictions.json ../Dataset/Labels/test_full.json
 ```
+
+### To visualize the images with detection results, run the command
+```
+python3 utils/make_figures.py ${THRES1} ${THRES2} ${PRED}
+```
+for example,
+```
+python3 utils/make_figures.py 0.5 0.5 train_log/test/predictions.json
+```
