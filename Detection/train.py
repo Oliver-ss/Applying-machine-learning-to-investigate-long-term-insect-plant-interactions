@@ -80,7 +80,7 @@ def train():
 
     ssd_net = build_ssd('train', cfg['min_dim'], config.num_classes)
     net = ssd_net
-    
+    best_loss = float('inf')
     #cycle_cos_lr = cycle_lr(500, cfg['peak_lr'], cfg['T_init'], cfg['T_warmup'])
 
     if args.cuda:
@@ -203,6 +203,10 @@ def train():
         if iteration % 100 == 0 and iteration != 0:
             val_loss_l, val_loss_c, val_loss = val(net, val_data_loader, criterion)
             print('Val_Loss: %.4f ||' % (val_loss.item()), end=' ')
+            if val_loss < best_loss:
+                print('Saving state, iter:', iteration)
+                torch.save(ssd_net.state_dict(), args.save_folder + 'model/'
+                        + 'best.pth')
             if args.visdom:
                 viz.line(
                     X=torch.ones((1, 3)).cpu() * iteration,
@@ -216,16 +220,16 @@ def train():
         #    update_vis_plot(iteration, loss_l.item(), loss_c.item(),
         #                    iter_plot, epoch_plot, 'append')
 
-        if iteration != 0 and iteration % 1000 == 0:
-            print('Saving state, iter:', iteration)
-            torch.save(ssd_net.state_dict(), args.save_folder + 'model/'
-                    + repr(iteration) + '.pth')
-            loss_file = {'loss': val_loss.item(), 'loc_loss': val_loss_l.item(), 'conf_loss': val_loss_c.item()}
-            with open(os.path.join(args.save_folder, 'eval', repr(iteration)+'.json'), 'w') as f:
-                json.dump(loss_file, f)
+        #if iteration != 0 and iteration % 1000 == 0:
+        #    print('Saving state, iter:', iteration)
+        #    torch.save(ssd_net.state_dict(), args.save_folder + 'model/'
+        #            + repr(iteration) + '.pth')
+        #    loss_file = {'loss': val_loss.item(), 'loc_loss': val_loss_l.item(), 'conf_loss': val_loss_c.item()}
+        #    with open(os.path.join(args.save_folder, 'eval', repr(iteration)+'.json'), 'w') as f:
+        #        json.dump(loss_file, f)
 
-    torch.save(ssd_net.state_dict(),
-            args.save_folder + '' + 'leaves' + '.pth')
+    #torch.save(ssd_net.state_dict(),
+    #        args.save_folder + '' + 'leaves' + '.pth')
 
 def val(model, dataloader, criterion):
     model.eval()  # evaluation mode
